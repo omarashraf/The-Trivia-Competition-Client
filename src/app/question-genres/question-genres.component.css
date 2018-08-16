@@ -20,6 +20,7 @@
 a.genres__box:hover, a.genres__box:active{
     background-color: rgba(0, 68, 126,0.8);
     text-decoration: none !important;
+    cursor: pointer;
 }
 /* .genre-container{
     padding-top: 80px;
