@@ -41,9 +41,9 @@
           <strong>Invitation Sent!</strong>
         </alert>
         <alert *ngIf='invitationErr' type="danger">
-          <strong> Admin already Exists!</strong>
+          <strong> {{errMessage}} </strong>
         </alert>
-        <h3 class='dashboard-container__section__title'>Add Admin</h3>
+        <h3 class='dashboard-container__section__title'>Invite Admin</h3>
         <form #inviteForm='ngForm' ngNativeValidate>
           <div class='form-group'>
             <input required type='email' name='email' class='form-control' id='email' placeholder='Enter an email to send an invitation'
