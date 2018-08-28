@@ -10,9 +10,64 @@
                 <button class="navbar__btns" [hidden]="!isAdmin">
                     <span class="glyphicon glyphicon-cog navbar__icon" aria-hidden="true"></span>Dashboard</button>
             </a>
+            <button class="navbar__btns" (click)="changePasswordPopup(changePasswordModal)" [hidden]="!isAdmin">
+                <span class="glyphicon glyphicon-wrench navbar__icon" aria-hidden="true"></span>Change Password</button>
             <button class="navbar__btns" (click)="logout()" [hidden]="!isAdmin">
                 <span class="glyphicon glyphicon-off navbar__icon" aria-hidden="true"></span>Logout</button>
             <div class="clr"></div>
         </div>
     </div>
 </nav>
+<div bsModal #changePasswordModal='bs-modal' class='modal fade' tabindex='-1' role='dialog' aria-labelledby='dialog-sizes-name1'>
+    <div class='modal-dialog modal-lg'>
+        <div class='modal-content'>
+            <div class='modal-body'>
+                <div *ngIf="failedAlert" class="alert alert-danger" role="alert">
+                    <strong>{{ failedMessage }}</strong>
+                </div>
+                <div *ngIf="successfulAlert" class="alert alert-success" role="alert">
+                        <strong>Your Password has been changed!</strong>
+                    </div>
+                <form [formGroup]="changePasswordForm" (ngSubmit)="onChangePasswordFormSubmit()">
+                    <div class='form-group'>
+                        <div class='row'>
+                            <label for='password' class='col-sm-3'>Password</label>
+                            <input formControlName="password" class='col-sm-5' placeholder="Enter Your Password" type='password' [ngClass]="{'input-error': changePasswordForm.get('password').invalid && changePasswordForm.get('password').touched}">
+                        </div>
+                        <div class='row' *ngIf="changePasswordForm.get('password').invalid && changePasswordForm.get('password').touched">
+                            <div *ngIf="changePasswordForm.get('password').errors.required" class="col-sm-offset-3 col-sm-5 error-msg">This field is required.</div>
+                        </div>
+                    </div>
+                    <div class='form-group'>
+                        <div class='row'>
+                            <label class='col-sm-3' for='new_password'>New Password</label>
+                            <input formControlName="new_password" class='col-sm-5' placeholder="Enter New Password" type="password" [ngClass]="{'input-error': changePasswordForm.get('new_password').invalid && changePasswordForm.get('new_password').touched}">
+                        </div>
+                        <div class='row' *ngIf="changePasswordForm.get('new_password').invalid && changePasswordForm.get('new_password').touched">
+                            <div *ngIf="changePasswordForm.get('new_password').errors.required" class="col-sm-offset-3 col-sm-5 error-msg">This field is required.</div>
+                            <div *ngIf="changePasswordForm.get('new_password').errors.minlength" class="col-sm-offset-3 col-sm-5 error-msg">This field cannot be less than 6 characters.</div>
+                            <div *ngIf="changePasswordForm.get('new_password').errors.maxlength" class="col-sm-offset-3 col-sm-5 error-msg">This field cannot be more than 15 characters.</div>
+                        </div>
+                    </div>
+                    <div class='form-group'>
+                        <div class='row'>
+                            <label class='col-sm-3' for='confrim_password'>Confirm Password</label>
+                            <input class='col-sm-5' formControlName="confirm_password" placeholder="Renter New Password" type='password' [ngClass]="{'input-error': changePasswordForm.get('confirm_password').invalid && changePasswordForm.get('confirm_password').touched}">
+                        </div>
+                        <div class='row' *ngIf="changePasswordForm.get('confirm_password').invalid && changePasswordForm.get('confirm_password').touched">
+                            <div *ngIf="changePasswordForm.get('confirm_password').errors.required" class="col-sm-offset-3 col-sm-5 error-msg">This field is required.</div>
+                            <div *ngIf="changePasswordForm.get('confirm_password').errors.matched" class="col-sm-offset-3 col-sm-5 error-msg">Password mismatch.</div>
+                        </div>
+                    </div>
+                    <div class='row'>
+                        <div class='col-sm-offset-3 col-sm-4 modal__btns'>
+                            <button type='submit' class='btn btn-success'>Submit</button>
+                            <button type='submit' class='btn btn-danger' (click)='close()'>Cancel</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
