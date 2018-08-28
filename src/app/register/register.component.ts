@@ -19,8 +19,10 @@ export class RegisterComponent implements OnInit {
   public email: string;
   public score: number;
   public errorRegistration: boolean = false;
+  public errorRegistrationMessage:string;
   public verificationCodeInput: boolean = false;
   public verificationCode: number;
+  public verficationCodeNotification: boolean;
   public enteredCode: number;
   public verificationError: boolean = false;
   public headers: Headers = new Headers();
@@ -29,16 +31,17 @@ export class RegisterComponent implements OnInit {
     private http: Http,
     private loginService: LoginService,
     private router: Router,
-    private localStorageService: LocalStorageService 
-  ) {}
+    private localStorageService: LocalStorageService
+  ) { }
 
   /*
     register new user in case of a valid registration. Otherwise,
     an error is prompted to the user.
   */
   onSubmit(): void {
+    this.hideAlerts();
     if (this.email !== "" && this.email !== undefined) {
-      let registrationData = "email=" + this.email;
+      let registrationData = {"email": this.email};
       this.errorRegistration = false;
       this.registerNewUser(registrationData, this.email);
     }
@@ -49,40 +52,62 @@ export class RegisterComponent implements OnInit {
 
   // register new user and validate that there is no error
   registerNewUser(registrationData, email): void {
+    this.hideAlerts();
     this.loginService.getCurrentUserInfo(email, true).subscribe((res) => {
-      if (res["_body"] === "") {
+      this.verificationCode = JSON.parse(res["_body"])["verificationCode"];
+      localStorage.setItem('current', JSON.stringify({ email: email, qIndex: 0 }));
+      this.verificationCodeInput = true;
+      this.verficationCodeNotification = true;
+      this.errorRegistration = false;
+    }, (err) => {
+      err = err.json();
+      if (err['status'] == '404') {
         this.errorRegistration = false;
         this.loginService.registerNewUser(registrationData).subscribe((res) => {
           this.errorRegistration = false;
           localStorage.setItem('current', JSON.stringify({ email: email, qIndex: 0 }));
-          this.verificationCode = JSON.parse(res["_body"])["verificationCode"];
+          this.verificationCode = res.json()["verificationCode"];
           this.verificationCodeInput = true;
-        },(err)=> {
+          this.verficationCodeNotification = true;
+        }, (err) => {
+          err = err.json();
           this.errorRegistration = true;
+          console.log(err);
+          if(err['body'] == null) {
+            this.errorRegistrationMessage = 'Please insert valid/unique email using emc or dell domains!';
+          } else {
+            this.errorRegistrationMessage = err['body'];
+          }
         });
-      }
-      else {
-        this.verificationCode = JSON.parse(res["_body"])["verificationCode"];
-        localStorage.setItem('current', JSON.stringify({ email: email, qIndex: 0 }));
-        this.verificationCodeInput = true;
-        this.errorRegistration = false;
-
+      } else {
+        this.errorRegistration = true;
+        if(err['body'] == null) {
+          this.errorRegistrationMessage = 'An error has occured please try again!';
+        } else {
+          this.errorRegistrationMessage = err['body'];
+        }
       }
     });
   }
 
   validateUser(): void {
-    if(this.enteredCode == this.verificationCode) {
+    if (this.enteredCode == this.verificationCode) {
       this.verificationCodeInput = false;
       this.router.navigate(['./question']);
     } else {
+      this.hideAlerts();
       this.verificationError = true;
     }
   }
+   hideAlerts() {
+     this.verficationCodeNotification = false;
+     this.errorRegistration = false;
+     this.verificationError = false;
+   }
 
   // destroy the previous session and remove error message if there is any
-  ngOnInit() : void {
+  ngOnInit(): void {
     localStorage.setItem('current', JSON.stringify({ email: '', qIndex: '' }));
-    this.errorRegistration = false;
+    this.hideAlerts();
   }
 }

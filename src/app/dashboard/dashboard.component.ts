@@ -13,7 +13,8 @@ export class DashboardComponent implements OnInit {
   stats: any = {};
   invitationErr: boolean;
   invitationSuccess: boolean;
-  topPlayers:any[] = [];
+  errMessage: string;
+  topPlayers: any[] = [];
   constructor(
     private http: Http,
     private adminService: AdminService,
@@ -26,7 +27,6 @@ export class DashboardComponent implements OnInit {
     });
     this.questionManipulation.topPlayers("10").subscribe((res) => {
       this.topPlayers = res.json();
-      console.log(res);
     });
   }
   inviteAdmin(invitationForm: NgForm) {
@@ -36,12 +36,16 @@ export class DashboardComponent implements OnInit {
       this.adminService.iniviteAdmin(email).subscribe((res) => {
         this.invitationSuccess = true;
       }, (err) => {
-        this.invitationErr = true;
+        this.setErrorMessage(err.json()['body']);
       });
     }
   }
   hideAlerts() {
     this.invitationErr = false;
     this.invitationSuccess = false;
+  }
+  setErrorMessage(message: string) {
+    this.invitationErr = true;
+    this.errMessage = message;
   }
 }
