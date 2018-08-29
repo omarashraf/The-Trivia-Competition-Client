@@ -60,7 +60,12 @@
     </div>
   </div>
   <div class='row row--margining'>
-    <div class='col-md-4 col-md-offset-4 col-sm-12'>
+  <div class='col-md-4 col-md-offset-0 col--align' >
+    <input type="text" [(ngModel)]="timer" placeholder="2:00 ">
+    <button type='submit' class='btn btn-success btn-sm btn-wide' (click)='setTimer(timer)'>Set Timer</button>
+  </div>
+
+    <div class='col-md-4 col-md-offset-2 col-sm-12'>
       <div class='dashboard-container__section dashboard-container__section--border-blue'>
         <h3 class='dashboard-container__section__title'>Leader Board</h3>
         <table class="table">

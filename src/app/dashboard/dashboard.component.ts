@@ -3,6 +3,8 @@ import { Http } from '@angular/http';
 import { AdminService } from '../services/admin.service';
 import { QuestionManipulationService } from '../services/question-manipulation.service';
 import { NgForm } from '@angular/forms';
+import { NgModule } from '@angular/core';
+import {QuestionComponent} from '../question/question.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,6 +12,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  timer: any;
   stats: any = {};
   invitationErr: boolean;
   invitationSuccess: boolean;
@@ -48,4 +51,8 @@ export class DashboardComponent implements OnInit {
     this.invitationErr = true;
     this.errMessage = message;
   }
+ setTimer(timer){
+   console.log(timer)
+  this.adminService.setTimer(timer).subscribe();
+ }
 }

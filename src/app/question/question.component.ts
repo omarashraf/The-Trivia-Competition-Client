@@ -3,8 +3,10 @@ import { Router } from '@angular/router';
 
 // imported services.
 import { LoginService } from '../services/login.service';
+import {QuestionService} from '../services/question.service';
 import { QuestionManipulationService } from '../services/question-manipulation.service';
 import { LocalStorageService } from 'angular-2-local-storage';
+import { timer } from 'rxjs/observable/timer';
 
 
 @Component({
@@ -13,6 +15,7 @@ import { LocalStorageService } from 'angular-2-local-storage';
   styleUrls: ['./question.component.css']
 })
 export class QuestionComponent implements OnInit {
+
 
   public currentUser: String = "Empty User";
   public questions: Array<any> = [
@@ -31,13 +34,14 @@ export class QuestionComponent implements OnInit {
   public optionSelected = "";
   public currentScore: number = 0;
   public showAlert: boolean = false;
-  public now: string = "02:00";
+  public now: string ;
   public n: number = 0;
   public top3Players = [];
 
 
   constructor(
     private loginService: LoginService,
+    private questionService: QuestionService,
     private questionManipulation: QuestionManipulationService,
     private router: Router,
     private localStorageService: LocalStorageService
@@ -105,6 +109,7 @@ export class QuestionComponent implements OnInit {
 
   // trigger the countdown to start and continue counting down (not used not).
   setCountdown(): void {
+   
     let timeArray = this.now.split(/[:]+/);
     let m = timeArray[0];
     let s = timeArray[1];
@@ -168,13 +173,21 @@ export class QuestionComponent implements OnInit {
       - render top 3 players.
   */
   ngOnInit(): void {
+ 
     this.getCurrentUser();
     this.questionManipulation.getQuestions().subscribe((res) => {
         this.questions = res.json();
+        debugger;
+      
         this.questionsLen = this.questions.length;
         this.shuffle();
     });
-    this.setCountdown();
+    this.questionService.getTimer().subscribe((res)=>{
+      this.now = JSON.parse(res["_body"])[0].timer;
+     
+      this.setCountdown();
+    })
+ 
     this.top3Players = [];
     this.questionManipulation.topPlayers("3").subscribe((res) => {
       this.top3Players = res.json();
