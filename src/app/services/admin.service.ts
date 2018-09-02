@@ -26,8 +26,14 @@ export class AdminService {
     this.headers.set('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
     return this.http.post(this.domain + '/admin/invite',{email}, {headers: this.headers});
   }
+
   setTimer(timer): Observable<any> {
     this.headers.set('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
     return this.http.post(this.domain + '/admin/setTimer',{timer}, {headers: this.headers});
+
+  changePassword(body): Observable<any> {
+    this.headers.set('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
+    return this.http.post(this.domain + '/admin/change-password', body, {headers: this.headers});
+
   }
 }

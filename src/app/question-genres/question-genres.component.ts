@@ -39,7 +39,8 @@ export class QuestionGenresComponent implements OnInit {
     this.modalRef = modal;
     this.modalRef.show();
   }
-  close() {
+  close(questionForm: NgForm) {
+    questionForm.reset();
     this.modalRef.hide();
     this.enterGenre = false;
     this.hideAlerts();
@@ -62,7 +63,7 @@ export class QuestionGenresComponent implements OnInit {
       }, (err) => {
         this.failedAlert = true;
       });
-      this.close();
+      this.close(questionForm);
     }
   }
   hideAlerts() {
