@@ -28,6 +28,6 @@ export class AdminService {
   }
   setTimer(timer): Observable<any> {
     this.headers.set('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
-    return this.http.post(this.domain + '/admin/setTimer',{timer}, {headers: this.headers});
+    return this.http.post(this.domain + '/questions/timer',{timer}, {headers: this.headers});
   }
 }
