@@ -29,15 +29,11 @@ export class AdminService {
 
   setTimer(timer): Observable<any> {
     this.headers.set('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
-<<<<<<< HEAD
-    return this.http.post(this.domain + '/questions/timer',{timer}, {headers: this.headers});
-=======
     return this.http.post(this.domain + '/admin/setTimer',{timer}, {headers: this.headers});
-
+  }
   changePassword(body): Observable<any> {
     this.headers.set('Authorization', 'Bearer ' + localStorage.getItem('jwtToken'));
     return this.http.post(this.domain + '/admin/change-password', body, {headers: this.headers});
 
->>>>>>> 82e2966f42f2c78a9f3c66cbc768e75591b16141
   }
 }

@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { AdminService } from '../services/admin.service';
 import { QuestionManipulationService } from '../services/question-manipulation.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormControl, Validators, FormGroup } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import {QuestionComponent} from '../question/question.component';
+import { QuestionComponent } from '../question/question.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,8 +16,15 @@ export class DashboardComponent implements OnInit {
   stats: any = {};
   invitationErr: boolean;
   invitationSuccess: boolean;
+  timerErr: boolean;
+  timerSuccess: boolean;
   errMessage: string;
   topPlayers: any[] = [];
+  timerForm = new FormGroup({
+    minutes: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(2), Validators.pattern("[0-9]+")]),
+    seconds: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(2), , Validators.pattern("[0-9]+")])
+
+  });
   constructor(
     private http: Http,
     private adminService: AdminService,
@@ -46,13 +53,23 @@ export class DashboardComponent implements OnInit {
   hideAlerts() {
     this.invitationErr = false;
     this.invitationSuccess = false;
+    this.timerSuccess = false;
+    this. timerErr = false;
   }
   setErrorMessage(message: string) {
     this.invitationErr = true;
     this.errMessage = message;
   }
- setTimer(timer){
-   console.log(timer)
-  this.adminService.setTimer(timer).subscribe();
- }
+  onTimerChangeFormSubmit() {
+    this.hideAlerts();
+    if (this.timerForm.valid) {
+      let timer = this.timerForm.value.minutes + ":" + this.timerForm.value.seconds;
+      console.log("TIMER!!", timer);
+      this.adminService.setTimer(timer).subscribe((res) => {
+        this.timerSuccess = true;
+      }, (err) => {
+        this.timerErr = true;
+      })
+    }
+  }
 }
