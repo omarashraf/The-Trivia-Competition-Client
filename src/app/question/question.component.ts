@@ -180,6 +180,8 @@ export class QuestionComponent implements OnInit {
     this.questionService.getTimer().subscribe((res) => {
       this.now = JSON.parse(res["_body"])[0].timer;
       this.setCountdown();
+    },(err)=>{
+      this.now="3:00"
     })
 
     this.top3Players = [];
