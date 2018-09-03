@@ -113,3 +113,19 @@
   .table>tbody>tr>td {
       border: none;
   }
+  .error-msg {
+    color: red;
+    font-size: 15px;
+  }
+  
+  .input-error {
+    border-color: red;
+  }
+  
+  .modal__btns{
+    text-align: center;
+  }
+  .dashboard-container__section__btns--margin{
+      margin-top: 25px
+  }
+  

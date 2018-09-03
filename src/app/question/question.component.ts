@@ -3,8 +3,10 @@ import { Router } from '@angular/router';
 
 // imported services.
 import { LoginService } from '../services/login.service';
+import { QuestionService } from '../services/question.service';
 import { QuestionManipulationService } from '../services/question-manipulation.service';
 import { LocalStorageService } from 'angular-2-local-storage';
+import { timer } from 'rxjs/observable/timer';
 
 
 @Component({
@@ -13,6 +15,7 @@ import { LocalStorageService } from 'angular-2-local-storage';
   styleUrls: ['./question.component.css']
 })
 export class QuestionComponent implements OnInit {
+
 
   public currentUser: String = "Empty User";
   public questions: Array<any> = [
@@ -31,17 +34,18 @@ export class QuestionComponent implements OnInit {
   public optionSelected = "";
   public currentScore: number = 0;
   public showAlert: boolean = false;
-  public now: string = "02:00";
+  public now: string;
   public n: number = 0;
   public top3Players = [];
 
 
   constructor(
     private loginService: LoginService,
+    private questionService: QuestionService,
     private questionManipulation: QuestionManipulationService,
     private router: Router,
     private localStorageService: LocalStorageService
-  ) {}
+  ) { }
 
   /*
     prompt the user with a new question and update score in case of
@@ -66,18 +70,17 @@ export class QuestionComponent implements OnInit {
         this.loginService.updateScore(this.currentUser, this.currentScore).subscribe((res) => {
           this.questionManipulation.topPlayers("3").subscribe((res) => {
             this.top3Players = res.json();
+            // in case a player finishes all questions, then the result view is prompted.
+            this.currentQuestionIndex += 1;
+            if (this.currentQuestionIndex == this.questionsLen) {
+              this.router.navigate(['./result']);
+            }
+            else {
+              localStorage.setItem('current', JSON.stringify({ email: this.currentUser, qIndex: this.currentQuestionIndex }));
+            }
           });
         });
       });
-
-      // in case a player finishes all questions, then the result view is prompted.
-      this.currentQuestionIndex += 1;
-      if (this.currentQuestionIndex == this.questionsLen) {
-        this.router.navigate(['./result']);
-      }
-      else {
-        localStorage.setItem('current', JSON.stringify( {email: this.currentUser, qIndex: this.currentQuestionIndex }));
-      }
     }
     else {
       if (this.optionSelected === "" || this.optionSelected === undefined) {
@@ -142,16 +145,16 @@ export class QuestionComponent implements OnInit {
   shuffle(): void {
     let j, x, i;
     for (i = this.questions.length - 1; i > 0; i--) {
-        j = Math.floor(Math.random() * (i + 1));
-        x = this.questions[i];
-        this.questions[i] = this.questions[j];
-        this.questions[j] = x;
+      j = Math.floor(Math.random() * (i + 1));
+      x = this.questions[i];
+      this.questions[i] = this.questions[j];
+      this.questions[j] = x;
     }
   }
 
   // store option selected for later checks
   onChangeRadio(entry): void {
-      this.optionSelected = entry;
+    this.optionSelected = entry;
   }
 
   // get current user from localStorage
@@ -170,11 +173,15 @@ export class QuestionComponent implements OnInit {
   ngOnInit(): void {
     this.getCurrentUser();
     this.questionManipulation.getQuestions().subscribe((res) => {
-        this.questions = res.json();
-        this.questionsLen = this.questions.length;
-        this.shuffle();
+      this.questions = res.json();
+      this.questionsLen = this.questions.length;
+      this.shuffle();
     });
-    this.setCountdown();
+    this.questionService.getTimer().subscribe((res) => {
+      this.now = JSON.parse(res["_body"])[0].timer;
+      this.setCountdown();
+    })
+
     this.top3Players = [];
     this.questionManipulation.topPlayers("3").subscribe((res) => {
       this.top3Players = res.json();

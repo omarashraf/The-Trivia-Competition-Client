@@ -31,4 +31,7 @@ export class QuestionService {
   addQuestion(new_question):Observable<any> {
     return this.http.post(this.domain + '/questions', new_question, {headers: this.headers});
   }
+  getTimer(): Observable<any> {
+    return this.http.get(this.domain + "/questions/timer", {headers: this.headers});
+  }
 }
