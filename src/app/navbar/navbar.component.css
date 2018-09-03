@@ -13,7 +13,7 @@
   border-color: transparent;
   -webkit-text-fill-color: snow;
   margin-left: 20px;
-  font-size: 18px;
+  font-size: 15px;
 }
 
 .clr {
@@ -22,7 +22,6 @@
 
 .navbar--color {
   background-color: #444;
-  color: red;
   height: 75px;
 }
 
@@ -36,6 +35,27 @@
     font-size: 2em;
     color: #aaa;
 }
+
 .navbar__icon {
   padding-right: 5px;
+}
+
+.modal-body-enhancements {
+  background-color: black;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.error-msg {
+  color: red;
+  font-size: 15px;
+}
+
+.input-error {
+  border-color: red;
+}
+
+.modal__btns{
+  text-align: center;
 }
