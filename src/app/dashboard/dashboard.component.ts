@@ -64,7 +64,6 @@ export class DashboardComponent implements OnInit {
     this.hideAlerts();
     if (this.timerForm.valid) {
       let timer = this.timerForm.value.minutes + ":" + this.timerForm.value.seconds;
-      console.log("TIMER!!", timer);
       this.adminService.setTimer(timer).subscribe((res) => {
         this.timerSuccess = true;
       }, (err) => {

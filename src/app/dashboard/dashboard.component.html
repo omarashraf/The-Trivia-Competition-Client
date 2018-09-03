@@ -73,7 +73,7 @@
           <div class='row'>
             <input formControlName="minutes" class='col-sm-4 col-sm-offset-1' placeholder="02" [ngClass]="{'input-error': timerForm.get('minutes').invalid && timerForm.get('minutes').touched}">
 
-            <div class='col-sm-2 text-center'>:</div>
+            <div class='col-sm-2 text-center'><strong>:</strong></div>
             <input formControlName="seconds" class='col-sm-4' placeholder="00" [ngClass]="{'input-error': timerForm.get('seconds').invalid && timerForm.get('seconds').touched}">
 
           </div>

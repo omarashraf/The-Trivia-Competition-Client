@@ -108,7 +108,6 @@ export class QuestionComponent implements OnInit {
 
   // trigger the countdown to start and continue counting down (not used not).
   setCountdown(): void {
-
     let timeArray = this.now.split(/[:]+/);
     let m = timeArray[0];
     let s = timeArray[1];
@@ -172,18 +171,14 @@ export class QuestionComponent implements OnInit {
       - render top 3 players.
   */
   ngOnInit(): void {
-
     this.getCurrentUser();
     this.questionManipulation.getQuestions().subscribe((res) => {
       this.questions = res.json();
-      debugger;
-
       this.questionsLen = this.questions.length;
       this.shuffle();
     });
     this.questionService.getTimer().subscribe((res) => {
       this.now = JSON.parse(res["_body"])[0].timer;
-
       this.setCountdown();
     })
 
