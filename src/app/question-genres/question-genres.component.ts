@@ -17,6 +17,8 @@ export class QuestionGenresComponent implements OnInit {
   failedAlert: boolean;
   enterGenre: boolean;
   formErrorAlert: boolean;
+  c: string;
+  d: string;
 
   constructor(
     private questionService: QuestionService,
