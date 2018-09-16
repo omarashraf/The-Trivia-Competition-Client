@@ -52,7 +52,7 @@
                          {{ questions[currentQuestionIndex].b }}
               </label>
             </div>
-            <div class="radio">
+            <div class="radio" *ngIf= 'questions[currentQuestionIndex].c'>
               <label class="question__options">
                   <input type="radio"
                          value="questions[currentQuestionIndex].c"
@@ -61,7 +61,7 @@
                          {{ questions[currentQuestionIndex].c }}
               </label>
             </div>
-            <div class="radio">
+            <div class="radio" *ngIf= 'questions[currentQuestionIndex].d'>
               <label class="question__options">
                   <input type="radio"
                          value="questions[currentQuestionIndex].d"
