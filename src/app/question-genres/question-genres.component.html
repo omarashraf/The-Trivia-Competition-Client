@@ -43,13 +43,13 @@
             </div>
             <div class='form-group'>
               <label>
-                <input required type='radio' value='c' name='correct_answer' ngModel>C:</label>
-              <input required type='text' name='c' class='form-control' id='c' placeholder='required' ngModel>
+                <input *ngIf= 'c' type='radio' value='c' name='correct_answer' ngModel>C:</label>
+              <input type='text' name='c' class='form-control' id='c' placeholder='optional' [(ngModel)]='c'>
             </div>
             <div class='form-group'>
               <label>
-                <input required type='radio' value='d' name='correct_answer' ngModel>D:</label>
-              <input required type='text' name='d' class='form-control' id='d' placeholder='required' ngModel>
+                <input *ngIf='d' type='radio' value='d' name='correct_answer' ngModel>D:</label>
+              <input  type='text' name='d' class='form-control' id='d' placeholder='optional' [(ngModel)]='d'>
             </div>
             <div class='form-group'>
               <label for='genre'>Genre:</label>
