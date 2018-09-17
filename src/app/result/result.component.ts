@@ -29,6 +29,11 @@ export class ResultComponent implements OnInit {
     private localStorageService: LocalStorageService
   ) {}
 
+  homePage(): void {
+    window.location.href = 'http://b1-screen.cec.lab.emc.com';
+  }
+
+
   // set status of the end game.
   endResult(): void {
     this.endStatus = this.questionManipulation.getWrongAnswerFlag();
