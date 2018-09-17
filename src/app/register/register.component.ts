@@ -34,6 +34,10 @@ export class RegisterComponent implements OnInit {
     private localStorageService: LocalStorageService
   ) { }
 
+  homePage(): void {
+    window.location.href = 'http://b1-screen.cec.lab.emc.com';
+  }
+
   /*
     register new user in case of a valid registration. Otherwise,
     an error is prompted to the user.
