@@ -74,9 +74,11 @@ export class RegisterComponent implements OnInit {
         this.loginService.registerNewUser(registrationData).subscribe((res) => {
           this.errorRegistration = false;
           localStorage.setItem('current', JSON.stringify({ email: email, qIndex: 0 }));
-          this.verificationCode = res.json()["verificationCode"];
-          this.verificationCodeInput = true;
-          this.verficationCodeNotification = true;
+          this.router.navigate(['./question']);
+          // ** if verification code is needed
+          // this.verificationCode = res.json()["verificationCode"];
+          // this.verificationCodeInput = true;
+          // this.verficationCodeNotification = true;
         }, (err) => {
           err = err.json();
           this.errorRegistration = true;
