@@ -12,8 +12,7 @@ import { AdminService } from '../services/admin.service';
 })
 export class QuestionGenresComponent implements OnInit {
 
-  @Output()
-  questionAdded: EventEmitter<any> = new EventEmitter<any>();
+  @Output() questionAdded: EventEmitter<any> = new EventEmitter<any>();
 
 
   public genres: any=[];
@@ -77,7 +76,6 @@ export class QuestionGenresComponent implements OnInit {
       
           this.statistics = res.json()['body'];
           this.questionAdded.emit();
-          console.log(this.statistics,"question genre")
         });
         
       }, (err) => {

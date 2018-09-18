@@ -15,8 +15,7 @@ import {QuestionGenresComponent} from '../question-genres/question-genres.compon
 })
 export class DashboardComponent implements OnInit {
 
-  @Input()
-  statstic: any;
+  @Input() statstic: any;
   timer: any;
   stats: any = {};
   invitationErr: boolean;
@@ -55,13 +54,11 @@ export class DashboardComponent implements OnInit {
   }
   onQuestionAdd(){
     this.getStats();
-    
   }
   getStats(){
 
     this.adminService.getStats().subscribe((res) => {
-
-      this.stats = res.json()['body'];
+     this.stats = res.json()['body'];
     });
 
   }
