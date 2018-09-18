@@ -32,6 +32,8 @@
           <button *ngIf="!verificationCodeInput" class="btn btn-success btn__join" (click)="onSubmit()">Join!</button>
           <button *ngIf="verificationCodeInput" class="btn btn-success btn__join" (click)="validateUser()">Verify!</button>
         </div>
+        <button class="btn btn-success btn__join" (click)="homePage()">Home</button>
+
       </h4>
     </div>
   </div>

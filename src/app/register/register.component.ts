@@ -34,6 +34,10 @@ export class RegisterComponent implements OnInit {
     private localStorageService: LocalStorageService
   ) { }
 
+  homePage(): void {
+    window.location.href = 'http://b1-screen.cec.lab.emc.com';
+  }
+
   /*
     register new user in case of a valid registration. Otherwise,
     an error is prompted to the user.
@@ -53,12 +57,16 @@ export class RegisterComponent implements OnInit {
   // register new user and validate that there is no error
   registerNewUser(registrationData, email): void {
     this.hideAlerts();
-    this.loginService.getCurrentUserInfo(email, true).subscribe((res) => {
-      this.verificationCode = JSON.parse(res["_body"])["verificationCode"];
-      localStorage.setItem('current', JSON.stringify({ email: email, qIndex: 0 }));
-      this.verificationCodeInput = true;
-      this.verficationCodeNotification = true;
-      this.errorRegistration = false;
+    //add registerationFlag (true) to getCurrentUserInfo inputs incase a user can play multiple times.
+    this.loginService.getCurrentUserInfo(email).subscribe((res) => {
+      this.errorRegistration = true;
+      this.errorRegistrationMessage = "You can only play once!";
+      // ** for when a user can play multiple times **
+      // this.verificationCode = JSON.parse(res["_body"])["verificationCode"];
+      // localStorage.setItem('current', JSON.stringify({ email: email, qIndex: 0 }));
+      // this.verificationCodeInput = true;
+      // this.verficationCodeNotification = true;
+      // this.errorRegistration = false;
     }, (err) => {
       err = err.json();
       if (err['status'] == '404') {
@@ -72,9 +80,8 @@ export class RegisterComponent implements OnInit {
         }, (err) => {
           err = err.json();
           this.errorRegistration = true;
-          console.log(err);
           if(err['body'] == null) {
-            this.errorRegistrationMessage = 'Please insert valid/unique email using emc or dell domains!';
+            this.errorRegistrationMessage = 'Please insert valid/unique email dell domain!';
           } else {
             this.errorRegistrationMessage = err['body'];
           }

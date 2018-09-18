@@ -13,16 +13,20 @@ import { AdminService } from '../services/admin.service';
 export class QuestionGenresComponent implements OnInit {
 
   @Output()
-  change: EventEmitter<any> = new EventEmitter<any>();
+  questionAdded: EventEmitter<any> = new EventEmitter<any>();
 
 
-  public genres: any={};
+  public genres: any=[];
   modalRef: ModalDirective;
   successfulAlert: boolean;
   failedAlert: boolean;
   enterGenre: boolean;
   formErrorAlert: boolean;
   statistics: any[];
+  c: string;
+  d: string;
+
+ 
 
   constructor(
     private adminService: AdminService,
@@ -72,7 +76,7 @@ export class QuestionGenresComponent implements OnInit {
         this.adminService.getStats().subscribe((res) => {
       
           this.statistics = res.json()['body'];
-          this.change.emit(this.statistics)
+          this.questionAdded.emit();
           console.log(this.statistics,"question genre")
         });
         

@@ -37,10 +37,7 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.adminService.getStats().subscribe((res) => {
-
-      this.stats = res.json()['body'];
-    });
+    this.getStats();
     this.questionManipulation.topPlayers("10").subscribe((res) => {
       this.topPlayers = res.json();
     });
@@ -56,9 +53,17 @@ export class DashboardComponent implements OnInit {
       });
     }
   }
-  updateFromChild($event){
-    this.stats=this.statstic;
-    console.log(this.statstic,"dasboard", this.stats)
+  onQuestionAdd(){
+    this.getStats();
+    
+  }
+  getStats(){
+
+    this.adminService.getStats().subscribe((res) => {
+
+      this.stats = res.json()['body'];
+    });
+
   }
   hideAlerts() {
     this.invitationErr = false;

@@ -32,7 +32,7 @@
   <div class='row row--margining'>
     <div class='col-md-6 col-sm-12'>
       <div class='dashboard-container__section'>
-        <app-question-genres (change)="updateFromChild($event)"></app-question-genres>
+        <app-question-genres  (questionAdded)="onQuestionAdd()"></app-question-genres>
       </div>
     </div>
     <div class='col-md-6 col-sm-12'>
@@ -90,7 +90,7 @@
             </div>
           </div>
           <div class='row dashboard-container__section__btns--margin'>
-            <div class='col-sm-offset-5 col-sm-4'>
+            <div class='col-sm-offset-5 col-sm-5'>
               <button type='submit' class='btn btn-success btn-lg btn-wide'>
                 <span class="glyphicon glyphicon-time sign" aria-hidden="true"></span>Set Timer</button>
             </div>

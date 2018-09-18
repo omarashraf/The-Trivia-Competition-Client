@@ -85,6 +85,7 @@ export class GenreQuestionsComponent implements OnInit {
       this.questions[questionIndex] = res.json();
       this.changePage({ page: this.page, itemsPerPage: this.itemsPerPage })
     }, (err) => {
+      console.log(err);
       this.failedAlert = true;
     });
     this.modalRef.hide();
