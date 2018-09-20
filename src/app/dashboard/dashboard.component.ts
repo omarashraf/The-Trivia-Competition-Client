@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.getStats();
-    this.questionManipulation.topPlayers("10").subscribe((res) => {
+    this.questionManipulation.topPlayers("30").subscribe((res) => {
       this.topPlayers = res.json();
     });
   }
