@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit {
     this.adminService.getStats().subscribe((res) => {
       this.stats = res.json()['body'];
     });
-    this.questionManipulation.topPlayers("10").subscribe((res) => {
+    this.questionManipulation.topPlayers("30").subscribe((res) => {
       this.topPlayers = res.json();
     });
   }
