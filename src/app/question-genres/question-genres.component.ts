@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { QuestionService } from '../services/question.service';
 import { Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { NgForm } from '@angular/forms';
+import { AdminService } from '../services/admin.service';
 
 @Component({
   selector: 'app-question-genres',
@@ -11,16 +12,23 @@ import { NgForm } from '@angular/forms';
 })
 export class QuestionGenresComponent implements OnInit {
 
-  public genres: any[];
+  @Output() questionAdded: EventEmitter<any> = new EventEmitter<any>();
+
+
+  public genres: any=[];
   modalRef: ModalDirective;
   successfulAlert: boolean;
   failedAlert: boolean;
   enterGenre: boolean;
   formErrorAlert: boolean;
+  statistics: any[];
   c: string;
   d: string;
 
+ 
+
   constructor(
+    private adminService: AdminService,
     private questionService: QuestionService,
     private router: Router
   ) { }
@@ -30,6 +38,7 @@ export class QuestionGenresComponent implements OnInit {
   }
   getGenres() {
     this.questionService.getQuestionGenres().subscribe((res) => {
+      console.log(res.json()['genres'])
       this.genres = res.json()['genres'];
     })
   }
@@ -62,6 +71,13 @@ export class QuestionGenresComponent implements OnInit {
           this.genres.push(newQuestion['other_genre'])
         }
         this.successfulAlert = true;
+
+        this.adminService.getStats().subscribe((res) => {
+      
+          this.statistics = res.json()['body'];
+          this.questionAdded.emit();
+        });
+        
       }, (err) => {
         this.failedAlert = true;
       });

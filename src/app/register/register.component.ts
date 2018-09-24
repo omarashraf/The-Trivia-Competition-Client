@@ -81,6 +81,7 @@ export class RegisterComponent implements OnInit {
           this.errorRegistration = false;
           localStorage.setItem('current', JSON.stringify({ email: email, qIndex: 0 }));
           this.router.navigate(['./question']);
+          // ** if verification code is needed
           // this.verificationCode = res.json()["verificationCode"];
           // this.verificationCodeInput = true;
           // this.verficationCodeNotification = true;

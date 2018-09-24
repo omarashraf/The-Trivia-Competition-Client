@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Http } from '@angular/http';
 import { AdminService } from '../services/admin.service';
 import { QuestionManipulationService } from '../services/question-manipulation.service';
@@ -6,12 +6,16 @@ import { NgForm, FormControl, Validators, FormGroup } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { QuestionComponent } from '../question/question.component';
 
+import {QuestionGenresComponent} from '../question-genres/question-genres.component'
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+
+  @Input() statstic: any;
   timer: any;
   stats: any = {};
   invitationErr: boolean;
@@ -32,10 +36,8 @@ export class DashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.adminService.getStats().subscribe((res) => {
-      this.stats = res.json()['body'];
-    });
-    this.questionManipulation.topPlayers("10").subscribe((res) => {
+    this.getStats();
+    this.questionManipulation.topPlayers("30").subscribe((res) => {
       this.topPlayers = res.json();
     });
   }
@@ -49,6 +51,16 @@ export class DashboardComponent implements OnInit {
         this.setErrorMessage(err.json()['body']);
       });
     }
+  }
+  onQuestionAdd(){
+    this.getStats();
+  }
+  getStats(){
+
+    this.adminService.getStats().subscribe((res) => {
+     this.stats = res.json()['body'];
+    });
+
   }
   hideAlerts() {
     this.invitationErr = false;

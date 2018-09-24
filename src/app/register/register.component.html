@@ -16,7 +16,7 @@
   </div>
   <div class="card register__card">
     <div class="card-header">
-      The Trivia Competition
+      The ISO 9001:2015 Competition
       <div class="row register__description">Answer as many successive questions as you can!</div>
     </div>
     <div class="card-body">
@@ -32,7 +32,7 @@
           <button *ngIf="!verificationCodeInput" class="btn btn-success btn__join" (click)="onSubmit()">Join!</button>
           <button *ngIf="verificationCodeInput" class="btn btn-success btn__join" (click)="validateUser()">Verify!</button>
         </div>
-        <button class="btn btn-success btn__join" (click)="homePage()">Home</button>
+        <button class="btn btn-success btn__join btn__home" (click)="homePage()">Home</button>
 
       </h4>
     </div>
