@@ -100,3 +100,8 @@
     font-size: 1em;
   }
 }
+
+.btn--home {
+  background-color: #002538;
+  margin-top: 20px;
+}

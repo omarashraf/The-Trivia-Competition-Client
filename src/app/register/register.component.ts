@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit {
   public email: string;
   public score: number;
   public errorRegistration: boolean = false;
-  public errorRegistrationMessage:string;
+  public errorRegistrationMessage: string;
   public verificationCodeInput: boolean = false;
   public verificationCode: number;
   public verficationCodeNotification: boolean;
@@ -45,7 +45,7 @@ export class RegisterComponent implements OnInit {
   onSubmit(): void {
     this.hideAlerts();
     if (this.email !== "" && this.email !== undefined) {
-      let registrationData = {"email": this.email};
+      let registrationData = { "email": this.email };
       this.errorRegistration = false;
       this.registerNewUser(registrationData, this.email);
     }
@@ -59,11 +59,17 @@ export class RegisterComponent implements OnInit {
     this.hideAlerts();
     //add registerationFlag (true) to getCurrentUserInfo inputs incase a user can play multiple times.
     this.loginService.getCurrentUserInfo(email).subscribe((res) => {
-      this.errorRegistration = true;
-      this.errorRegistrationMessage = "You can only play once!";
+      // this.errorRegistration = true;
+      // this.errorRegistrationMessage = "You can only play once!";
       // ** for when a user can play multiple times **
       // this.verificationCode = JSON.parse(res["_body"])["verificationCode"];
-      // localStorage.setItem('current', JSON.stringify({ email: email, qIndex: 0 }));
+      localStorage.setItem('current', JSON.stringify({ email: email, qIndex: 0 }));
+      this.loginService.updateScore(email, 0).subscribe((res) => {
+        this.router.navigate(['./question']);
+      }, (err) => {
+        this.errorRegistration = true;
+        this.errorRegistrationMessage = "An error as occured please try again!";
+      })
       // this.verificationCodeInput = true;
       // this.verficationCodeNotification = true;
       // this.errorRegistration = false;
@@ -74,13 +80,14 @@ export class RegisterComponent implements OnInit {
         this.loginService.registerNewUser(registrationData).subscribe((res) => {
           this.errorRegistration = false;
           localStorage.setItem('current', JSON.stringify({ email: email, qIndex: 0 }));
-          this.verificationCode = res.json()["verificationCode"];
-          this.verificationCodeInput = true;
-          this.verficationCodeNotification = true;
+          this.router.navigate(['./question']);
+          // this.verificationCode = res.json()["verificationCode"];
+          // this.verificationCodeInput = true;
+          // this.verficationCodeNotification = true;
         }, (err) => {
           err = err.json();
           this.errorRegistration = true;
-          if(err['body'] == null) {
+          if (err['body'] == null) {
             this.errorRegistrationMessage = 'Please insert valid/unique email dell domain!';
           } else {
             this.errorRegistrationMessage = err['body'];
@@ -88,7 +95,7 @@ export class RegisterComponent implements OnInit {
         });
       } else {
         this.errorRegistration = true;
-        if(err['body'] == null) {
+        if (err['body'] == null) {
           this.errorRegistrationMessage = 'An error has occured please try again!';
         } else {
           this.errorRegistrationMessage = err['body'];
@@ -106,11 +113,11 @@ export class RegisterComponent implements OnInit {
       this.verificationError = true;
     }
   }
-   hideAlerts() {
-     this.verficationCodeNotification = false;
-     this.errorRegistration = false;
-     this.verificationError = false;
-   }
+  hideAlerts() {
+    this.verficationCodeNotification = false;
+    this.errorRegistration = false;
+    this.verificationError = false;
+  }
 
   // destroy the previous session and remove error message if there is any
   ngOnInit(): void {

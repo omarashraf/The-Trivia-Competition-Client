@@ -88,12 +88,17 @@ export class QuestionComponent implements OnInit {
         this.showAlert = true;
       }
       else {
+        // in case a player finishes all questions, then the result view is prompted.
+        this.currentQuestionIndex += 1;
+        if (this.currentQuestionIndex == this.questionsLen) {
+          this.router.navigate(['./result']);
+        }
         // in case of wrong answer, the result view is prompted with current score
-        this.loginService.getCurrentUserInfo(this.currentUser).subscribe((res) => {
-          this.currentScore = res.json()["score"];
-        });
-        this.questionManipulation.wrongAnswer();
-        this.router.navigate(['./result']);
+        // this.loginService.getCurrentUserInfo(this.currentUser).subscribe((res) => {
+        //   this.currentScore = res.json()["score"];
+        // });
+        // this.questionManipulation.wrongAnswer();
+        // this.router.navigate(['./result']);
       }
     }
   }
