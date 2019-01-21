@@ -37,6 +37,7 @@ export class QuestionComponent implements OnInit {
   public now: string;
   public n: number = 0;
   public top3Players = [];
+  public list=[];
 
 
   constructor(
@@ -90,7 +91,7 @@ export class QuestionComponent implements OnInit {
       else {
         // in case a player finishes all questions, then the result view is prompted.
         this.currentQuestionIndex += 1;
-        if (this.currentQuestionIndex == this.questionsLen) {
+        if (this.currentQuestionIndex == 5) {
           this.router.navigate(['./result']);
         }
         // in case of wrong answer, the result view is prompted with current score
@@ -148,13 +149,18 @@ export class QuestionComponent implements OnInit {
 
   // shuffle questions on init component.
   shuffle(): void {
-    let j, x, i;
+    let j, x, i,m;
     for (i = this.questions.length - 1; i > 0; i--) {
       j = Math.floor(Math.random() * (i + 1));
       x = this.questions[i];
       this.questions[i] = this.questions[j];
       this.questions[j] = x;
     }
+    for (m=0;m<5;m++)
+    {
+      this.list[m]=this.questions[m]
+    }
+console.log(this.list,"List")
   }
 
   // store option selected for later checks

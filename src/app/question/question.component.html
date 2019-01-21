@@ -22,11 +22,11 @@
         <div class="card">
           <div class="card-body">
             <h4 class="card-title">
-              <span class="question">Q: {{ questions[currentQuestionIndex].question }}</span>
+              <span class="question">Q: {{ list[currentQuestionIndex].question }}</span>
             </h4>
             <div class="badge__content">
               <span class="badge badge-danger badge__hashtag">
-                #{{ questions[currentQuestionIndex].genre }}
+                #{{ list[currentQuestionIndex].genre }}
               </span>
             </div>
           </div>
@@ -37,37 +37,37 @@
             <div class="radio">
                 <label class="question__options">
                     <input type="radio"
-                           value="questions[currentQuestionIndex].a"
-                           [checked]="optionSelected === questions[currentQuestionIndex].a"
-                           (change)="onChangeRadio(questions[currentQuestionIndex].a)">
-                           {{ questions[currentQuestionIndex].a }}
+                           value="list[currentQuestionIndex].a"
+                           [checked]="optionSelected === list[currentQuestionIndex].a"
+                           (change)="onChangeRadio(list[currentQuestionIndex].a)">
+                           {{ list[currentQuestionIndex].a }}
                 </label>
             </div>
             <div class="radio">
               <label class="question__options">
                   <input type="radio"
-                         value="questions[currentQuestionIndex].b"
-                         [checked]="optionSelected === questions[currentQuestionIndex].b"
-                         (change)="onChangeRadio(questions[currentQuestionIndex].b)">
-                         {{ questions[currentQuestionIndex].b }}
+                         value="list[currentQuestionIndex].b"
+                         [checked]="optionSelected === list[currentQuestionIndex].b"
+                         (change)="onChangeRadio(list[currentQuestionIndex].b)">
+                         {{ list[currentQuestionIndex].b }}
               </label>
             </div>
-            <div class="radio" *ngIf= 'questions[currentQuestionIndex].c'>
+            <div class="radio" *ngIf= 'list[currentQuestionIndex].c'>
               <label class="question__options">
                   <input type="radio"
-                         value="questions[currentQuestionIndex].c"
-                         [checked]="optionSelected === questions[currentQuestionIndex].c"
-                         (change)="onChangeRadio(questions[currentQuestionIndex].c)">
-                         {{ questions[currentQuestionIndex].c }}
+                         value="list[currentQuestionIndex].c"
+                         [checked]="optionSelected === list[currentQuestionIndex].c"
+                         (change)="onChangeRadio(list[currentQuestionIndex].c)">
+                         {{ list[currentQuestionIndex].c }}
               </label>
             </div>
-            <div class="radio" *ngIf= 'questions[currentQuestionIndex].d'>
+            <div class="radio" *ngIf= 'list[currentQuestionIndex].d'>
               <label class="question__options">
                   <input type="radio"
-                         value="questions[currentQuestionIndex].d"
-                         [checked]="optionSelected === questions[currentQuestionIndex].d"
-                         (change)="onChangeRadio(questions[currentQuestionIndex].d)">
-                         {{ questions[currentQuestionIndex].d }}
+                         value="list[currentQuestionIndex].d"
+                         [checked]="optionSelected === list[currentQuestionIndex].d"
+                         (change)="onChangeRadio(list[currentQuestionIndex].d)">
+                         {{ list[currentQuestionIndex].d }}
               </label>
             </div>
           </div>
